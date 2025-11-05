@@ -1,42 +1,101 @@
-// Mobile Navigation Toggle
-const hamburger = document.querySelector('.hamburger');
-const navMenu = document.querySelector('.nav-menu');
-const navLinks = document.querySelectorAll('.nav-link');
+// GitHub-Themed Terminal Portfolio JavaScript
 
-hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    navMenu.classList.toggle('active');
+// Terminal Commands Animation
+const commands = [
+    'npm start',
+    'git status',
+    'ls -la',
+    'cd projects/',
+    'node server.js',
+    'git commit -m "feat: new feature"',
+    'docker-compose up',
+    'npm test',
+    'git push origin main'
+];
+
+let commandIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+const typingElement = document.querySelector('.typing-command');
+
+function typeCommand() {
+    if (!typingElement) return;
+
+    const currentCommand = commands[commandIndex];
+
+    if (isDeleting) {
+        typingElement.textContent = currentCommand.substring(0, charIndex - 1);
+        charIndex--;
+    } else {
+        typingElement.textContent = currentCommand.substring(0, charIndex + 1);
+        charIndex++;
+    }
+
+    let typeSpeed = isDeleting ? 50 : 100;
+
+    if (!isDeleting && charIndex === currentCommand.length) {
+        typeSpeed = 2000;
+        isDeleting = true;
+    } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        commandIndex = (commandIndex + 1) % commands.length;
+        typeSpeed = 500;
+    }
+
+    setTimeout(typeCommand, typeSpeed);
+}
+
+// Start typing animation
+window.addEventListener('load', () => {
+    setTimeout(typeCommand, 1000);
 });
 
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
+// Smooth Navigation
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            const offset = 100;
+            const targetPosition = target.offsetTop - offset;
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        }
     });
 });
 
-// Navbar Scroll Effect
-const navbar = document.getElementById('navbar');
-let lastScroll = 0;
+// Active Tab Highlighting
+const tabs = document.querySelectorAll('.terminal-tab');
+const sections = document.querySelectorAll('.terminal-section');
 
-window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
+function updateActiveTab() {
+    let currentSection = '';
+    const scrollPosition = window.pageYOffset;
 
-    if (currentScroll > 100) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop - 150;
+        const sectionHeight = section.offsetHeight;
+        const sectionId = section.getAttribute('id');
 
-    lastScroll = currentScroll;
-});
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            currentSection = sectionId;
+        }
+    });
 
-// Animated Counter for Stats
-const observerOptions = {
-    threshold: 0.5,
-    rootMargin: '0px'
-};
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+        const href = tab.getAttribute('href');
+        if (href === `#${currentSection}`) {
+            tab.classList.add('active');
+        }
+    });
+}
 
+window.addEventListener('scroll', updateActiveTab);
+
+// Animated Counters
 const animateCounter = (element) => {
     const target = parseInt(element.getAttribute('data-target'));
     const duration = 2000;
@@ -46,7 +105,7 @@ const animateCounter = (element) => {
     const updateCounter = () => {
         current += increment;
         if (current < target) {
-            element.textContent = Math.floor(current) + '+';
+            element.textContent = Math.floor(current);
             requestAnimationFrame(updateCounter);
         } else {
             element.textContent = target + '+';
@@ -56,288 +115,415 @@ const animateCounter = (element) => {
     updateCounter();
 };
 
-const statsObserver = new IntersectionObserver((entries) => {
+// Intersection Observer for Stat Counters
+const statObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
             animateCounter(entry.target);
             entry.target.classList.add('counted');
         }
     });
-}, observerOptions);
-
-document.querySelectorAll('.stat-number').forEach(stat => {
-    statsObserver.observe(stat);
+}, {
+    threshold: 0.5
 });
 
-// Skill Progress Animation
-const skillProgressObserver = new IntersectionObserver((entries) => {
+document.querySelectorAll('.stat-value').forEach(stat => {
+    statObserver.observe(stat);
+});
+
+// Animate Terminal Windows on Scroll
+const terminalObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            const progress = entry.target.getAttribute('data-progress');
-            entry.target.style.width = progress + '%';
-        }
-    });
-}, observerOptions);
-
-document.querySelectorAll('.skill-progress').forEach(skill => {
-    skillProgressObserver.observe(skill);
-});
-
-// Smooth Scroll for Navigation Links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            const offsetTop = target.offsetTop - 80;
-            window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
-            });
-        }
-    });
-});
-
-// Typing Animation Effect
-const typingText = document.querySelector('.typing-text');
-const texts = [
-    'Full Stack Developer',
-    'UI/UX Enthusiast',
-    'Problem Solver',
-    'Creative Thinker'
-];
-let textIndex = 0;
-let charIndex = 0;
-let isDeleting = false;
-
-function typeText() {
-    const currentText = texts[textIndex];
-
-    if (isDeleting) {
-        typingText.textContent = currentText.substring(0, charIndex - 1);
-        charIndex--;
-    } else {
-        typingText.textContent = currentText.substring(0, charIndex + 1);
-        charIndex++;
-    }
-
-    let typeSpeed = isDeleting ? 50 : 100;
-
-    if (!isDeleting && charIndex === currentText.length) {
-        typeSpeed = 2000;
-        isDeleting = true;
-    } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        textIndex = (textIndex + 1) % texts.length;
-        typeSpeed = 500;
-    }
-
-    setTimeout(typeText, typeSpeed);
-}
-
-// Start typing animation after page load
-window.addEventListener('load', () => {
-    setTimeout(typeText, 1000);
-});
-
-// Form Submission Handler
-const contactForm = document.querySelector('.contact-form');
-
-contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    // Get form data
-    const formData = new FormData(contactForm);
-
-    // Show success message (you can customize this)
-    alert('Thank you for your message! I will get back to you soon.');
-
-    // Reset form
-    contactForm.reset();
-
-    // In a real application, you would send the data to a server here
-    // Example:
-    // fetch('/api/contact', {
-    //     method: 'POST',
-    //     body: formData
-    // }).then(response => response.json())
-    //   .then(data => console.log(data))
-    //   .catch(error => console.error('Error:', error));
-});
-
-// Scroll Reveal Animation
-const revealElements = document.querySelectorAll('.skill-card, .project-card, .about-text');
-
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
+            entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
         }
     });
 }, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
+    threshold: 0.1
 });
 
-revealElements.forEach(element => {
-    revealObserver.observe(element);
+document.querySelectorAll('.terminal-window').forEach(window => {
+    terminalObserver.observe(window);
 });
 
-// Add parallax effect to hero section
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const heroContent = document.querySelector('.hero-content');
+// Animate Branch Items on Hover
+document.querySelectorAll('.branch-item').forEach(item => {
+    item.addEventListener('mouseenter', function() {
+        this.style.animation = 'pulse 0.5s ease';
+    });
 
-    if (heroContent && scrolled < window.innerHeight) {
-        heroContent.style.transform = `translateY(${scrolled * 0.5}px)`;
-        heroContent.style.opacity = 1 - (scrolled / 800);
-    }
+    item.addEventListener('animationend', function() {
+        this.style.animation = '';
+    });
 });
 
-// Active navigation link on scroll
-const sections = document.querySelectorAll('section[id]');
-
-function highlightNavigation() {
-    const scrollY = window.pageYOffset;
-
-    sections.forEach(section => {
-        const sectionHeight = section.offsetHeight;
-        const sectionTop = section.offsetTop - 100;
-        const sectionId = section.getAttribute('id');
-        const navLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
-
-        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-            navLink?.classList.add('active');
-        } else {
-            navLink?.classList.remove('active');
+// Animate Commit Cards on Scroll
+const commitObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+            setTimeout(() => {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }, index * 100);
         }
+    });
+}, {
+    threshold: 0.1
+});
+
+document.querySelectorAll('.commit-card').forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
+    card.style.transition = 'all 0.5s ease';
+    commitObserver.observe(card);
+});
+
+// Terminal Form Submission with Animation
+const terminalForm = document.querySelector('.terminal-form');
+if (terminalForm) {
+    terminalForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Create terminal output effect
+        const submitButton = this.querySelector('button');
+        const originalText = submitButton.innerHTML;
+
+        // Simulate git push process
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Pushing to remote...';
+        submitButton.disabled = true;
+
+        setTimeout(() => {
+            submitButton.innerHTML = '<i class="fas fa-check"></i> Successfully pushed!';
+            submitButton.style.background = 'var(--terminal-green)';
+
+            setTimeout(() => {
+                // Show success message
+                const successMessage = document.createElement('div');
+                successMessage.className = 'command-line';
+                successMessage.style.color = 'var(--terminal-green)';
+                successMessage.innerHTML = `
+                    <span class="prompt">john-dev@portfolio</span>
+                    <span class="path">~</span>
+                    <span class="dollar">$</span>
+                    <span class="command">echo "Message sent successfully! ✓"</span>
+                `;
+
+                this.appendChild(successMessage);
+
+                // Reset form
+                setTimeout(() => {
+                    this.reset();
+                    submitButton.innerHTML = originalText;
+                    submitButton.disabled = false;
+                    submitButton.style.background = '';
+                    successMessage.remove();
+                }, 3000);
+            }, 1000);
+        }, 2000);
     });
 }
 
-window.addEventListener('scroll', highlightNavigation);
+// Tech Badge Click Animation
+document.querySelectorAll('.tech-badge').forEach(badge => {
+    badge.addEventListener('click', function() {
+        // Create a console.log effect
+        const tech = this.textContent;
+        console.log(`%c> Exploring ${tech}...`, 'color: #3fb950; font-family: monospace; font-size: 14px;');
 
-// Add CSS for active nav link
-const style = document.createElement('style');
-style.textContent = `
-    .nav-link.active {
-        color: var(--primary-color) !important;
+        // Visual feedback
+        this.style.animation = 'pulse 0.3s ease';
+        setTimeout(() => {
+            this.style.animation = '';
+        }, 300);
+    });
+});
+
+// Mobile Menu Toggle
+const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+const terminalNav = document.querySelector('.terminal-nav');
+
+if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', () => {
+        terminalNav.classList.toggle('mobile-active');
+
+        // Add mobile styles dynamically
+        if (terminalNav.classList.contains('mobile-active')) {
+            terminalNav.style.position = 'fixed';
+            terminalNav.style.top = '80px';
+            terminalNav.style.left = '0';
+            terminalNav.style.right = '0';
+            terminalNav.style.background = 'var(--gh-bg-secondary)';
+            terminalNav.style.padding = '1rem';
+            terminalNav.style.boxShadow = 'var(--shadow-lg)';
+            terminalNav.style.zIndex = '999';
+        } else {
+            terminalNav.style.position = '';
+            terminalNav.style.top = '';
+            terminalNav.style.left = '';
+            terminalNav.style.right = '';
+            terminalNav.style.background = '';
+            terminalNav.style.padding = '';
+            terminalNav.style.boxShadow = '';
+        }
+    });
+
+    // Close mobile menu when clicking a link
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            if (terminalNav.classList.contains('mobile-active')) {
+                terminalNav.classList.remove('mobile-active');
+                terminalNav.style.position = '';
+                terminalNav.style.top = '';
+                terminalNav.style.left = '';
+                terminalNav.style.right = '';
+                terminalNav.style.background = '';
+                terminalNav.style.padding = '';
+                terminalNav.style.boxShadow = '';
+            }
+        });
+    });
+}
+
+// Easter Egg: Konami Code
+let konamiCode = [];
+const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+
+document.addEventListener('keydown', (e) => {
+    konamiCode.push(e.key);
+    konamiCode = konamiCode.slice(-konamiSequence.length);
+
+    if (konamiCode.join('') === konamiSequence.join('')) {
+        // Easter egg activated!
+        console.log('%c┌────────────────────────────────────┐', 'color: #3fb950; font-family: monospace;');
+        console.log('%c│  🎮 KONAMI CODE ACTIVATED! 🎮     │', 'color: #3fb950; font-family: monospace;');
+        console.log('%c│  You are a true developer! 💚     │', 'color: #3fb950; font-family: monospace;');
+        console.log('%c└────────────────────────────────────┘', 'color: #3fb950; font-family: monospace;');
+
+        // Add matrix rain effect
+        addMatrixRain();
+        konamiCode = [];
     }
-    .nav-link.active::after {
-        width: 100%;
-    }
-`;
-document.head.appendChild(style);
+});
 
-// Cursor trail effect (optional - can be removed if too much)
-const createCursorTrail = () => {
-    const coords = { x: 0, y: 0 };
-    const circles = document.querySelectorAll('.circle');
+// Matrix Rain Effect (Easter Egg)
+function addMatrixRain() {
+    const canvas = document.createElement('canvas');
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.pointerEvents = 'none';
+    canvas.style.zIndex = '9999';
+    document.body.appendChild(canvas);
 
-    if (circles.length === 0) {
-        // Create cursor circles
-        for (let i = 0; i < 20; i++) {
-            const circle = document.createElement('div');
-            circle.className = 'circle';
-            circle.style.cssText = `
-                position: fixed;
-                width: 10px;
-                height: 10px;
-                border-radius: 50%;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                pointer-events: none;
-                z-index: 9999;
-                opacity: 0;
-                transition: opacity 0.3s;
-            `;
-            document.body.appendChild(circle);
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()';
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    function draw() {
+        ctx.fillStyle = 'rgba(13, 17, 23, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = '#3fb950';
+        ctx.font = `${fontSize}px monospace`;
+
+        for (let i = 0; i < drops.length; i++) {
+            const text = letters[Math.floor(Math.random() * letters.length)];
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            drops[i]++;
         }
     }
 
-    const newCircles = document.querySelectorAll('.circle');
+    const interval = setInterval(draw, 33);
 
-    newCircles.forEach((circle, index) => {
-        circle.x = 0;
-        circle.y = 0;
+    // Remove after 5 seconds
+    setTimeout(() => {
+        clearInterval(interval);
+        canvas.style.opacity = '0';
+        canvas.style.transition = 'opacity 1s';
+        setTimeout(() => canvas.remove(), 1000);
+    }, 5000);
+}
+
+// Console ASCII Art
+console.log('%c', 'font-size: 1px;');
+console.log('%c┌─────────────────────────────────────────────────┐', 'color: #3fb950; font-family: monospace; font-size: 12px;');
+console.log('%c│                                                 │', 'color: #3fb950; font-family: monospace; font-size: 12px;');
+console.log('%c│     👋 Hey Developer! Welcome to my portfolio  │', 'color: #3fb950; font-family: monospace; font-size: 12px;');
+console.log('%c│                                                 │', 'color: #3fb950; font-family: monospace; font-size: 12px;');
+console.log('%c│     $ git clone portfolio.git                   │', 'color: #58a6ff; font-family: monospace; font-size: 12px;');
+console.log('%c│     $ cd portfolio && npm install               │', 'color: #58a6ff; font-family: monospace; font-size: 12px;');
+console.log('%c│     $ npm start                                 │', 'color: #58a6ff; font-family: monospace; font-size: 12px;');
+console.log('%c│                                                 │', 'color: #3fb950; font-family: monospace; font-size: 12px;');
+console.log('%c│     🔍 Try the Konami Code for a surprise! 🎮  │', 'color: #d29922; font-family: monospace; font-size: 12px;');
+console.log('%c│                                                 │', 'color: #3fb950; font-family: monospace; font-size: 12px;');
+console.log('%c└─────────────────────────────────────────────────┘', 'color: #3fb950; font-family: monospace; font-size: 12px;');
+
+// Add typing indicator to form inputs
+const formInputs = document.querySelectorAll('.terminal-form input, .terminal-form textarea');
+formInputs.forEach(input => {
+    input.addEventListener('focus', function() {
+        this.style.borderColor = 'var(--terminal-green)';
+        this.style.boxShadow = '0 0 0 3px rgba(63, 185, 80, 0.1)';
     });
 
-    window.addEventListener('mousemove', (e) => {
-        coords.x = e.clientX;
-        coords.y = e.clientY;
+    input.addEventListener('blur', function() {
+        if (!this.value) {
+            this.style.borderColor = '';
+            this.style.boxShadow = '';
+        }
     });
 
-    function animateCircles() {
-        let x = coords.x;
-        let y = coords.y;
+    input.addEventListener('input', function() {
+        // Add typing sound effect (optional - commented out)
+        // new Audio('path-to-keyboard-sound.mp3').play();
+    });
+});
 
-        newCircles.forEach((circle, index) => {
-            circle.style.left = x - 5 + 'px';
-            circle.style.top = y - 5 + 'px';
-            circle.style.opacity = (20 - index) / 40;
-            circle.style.transform = `scale(${(20 - index) / 20})`;
+// Contribution Graph Animation
+document.querySelectorAll('.contribution-day').forEach((day, index) => {
+    setTimeout(() => {
+        day.style.opacity = '0';
+        day.style.transform = 'scale(0)';
+        day.style.transition = 'all 0.3s ease';
 
-            circle.x = x;
-            circle.y = y;
+        setTimeout(() => {
+            day.style.opacity = '1';
+            day.style.transform = 'scale(1)';
+        }, 50);
+    }, index * 50);
+});
 
-            const nextCircle = newCircles[index + 1] || newCircles[0];
-            x += (nextCircle.x - x) * 0.3;
-            y += (nextCircle.y - y) * 0.3;
+// Graph Bars Animation
+document.querySelectorAll('.graph-bar').forEach((bar, index) => {
+    setTimeout(() => {
+        bar.style.opacity = '0';
+        bar.style.transform = 'scaleY(0)';
+        bar.style.transformOrigin = 'bottom';
+        bar.style.transition = 'all 0.5s ease';
+
+        setTimeout(() => {
+            bar.style.opacity = '1';
+            bar.style.transform = 'scaleY(1)';
+        }, 50);
+    }, index * 100);
+});
+
+// Add glow effect to action buttons
+document.querySelectorAll('.action-btn, .git-btn').forEach(btn => {
+    btn.addEventListener('mouseenter', function() {
+        this.style.boxShadow = '0 0 20px rgba(63, 185, 80, 0.4)';
+    });
+
+    btn.addEventListener('mouseleave', function() {
+        this.style.boxShadow = '';
+    });
+});
+
+// Terminal cursor blink
+const cursor = document.querySelector('.cursor-blink');
+if (cursor) {
+    setInterval(() => {
+        cursor.style.opacity = cursor.style.opacity === '0' ? '1' : '0';
+    }, 500);
+}
+
+// Add particle effect on hover for stat cards
+document.querySelectorAll('.stat-card').forEach(card => {
+    card.addEventListener('mouseenter', function(e) {
+        createParticles(e.pageX, e.pageY);
+    });
+});
+
+function createParticles(x, y) {
+    const colors = ['#3fb950', '#58a6ff', '#d29922'];
+
+    for (let i = 0; i < 5; i++) {
+        const particle = document.createElement('div');
+        particle.style.position = 'fixed';
+        particle.style.left = x + 'px';
+        particle.style.top = y + 'px';
+        particle.style.width = '4px';
+        particle.style.height = '4px';
+        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.borderRadius = '50%';
+        particle.style.pointerEvents = 'none';
+        particle.style.zIndex = '10000';
+        document.body.appendChild(particle);
+
+        const angle = (Math.PI * 2 * i) / 5;
+        const velocity = 2;
+        const vx = Math.cos(angle) * velocity;
+        const vy = Math.sin(angle) * velocity;
+
+        let px = x;
+        let py = y;
+        let opacity = 1;
+
+        function animate() {
+            px += vx;
+            py += vy;
+            opacity -= 0.02;
+
+            particle.style.left = px + 'px';
+            particle.style.top = py + 'px';
+            particle.style.opacity = opacity;
+
+            if (opacity > 0) {
+                requestAnimationFrame(animate);
+            } else {
+                particle.remove();
+            }
+        }
+
+        animate();
+    }
+}
+
+// Performance: Lazy load animations
+const lazyObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            lazyObserver.unobserve(entry.target);
+        }
+    });
+}, {
+    rootMargin: '50px'
+});
+
+document.querySelectorAll('.terminal-section').forEach(section => {
+    lazyObserver.observe(section);
+});
+
+// Log portfolio load time
+window.addEventListener('load', () => {
+    const loadTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
+    console.log(`%c✓ Portfolio loaded in ${loadTime}ms`, 'color: #3fb950; font-family: monospace; font-weight: bold;');
+});
+
+// Add realistic terminal focus effect
+document.querySelectorAll('.terminal-window').forEach(window => {
+    window.addEventListener('click', function() {
+        // Remove focus from all windows
+        document.querySelectorAll('.terminal-window').forEach(w => {
+            w.style.borderColor = 'var(--gh-border)';
         });
 
-        requestAnimationFrame(animateCircles);
-    }
-
-    animateCircles();
-};
-
-// Enable cursor trail only on desktop
-if (window.innerWidth > 768) {
-    createCursorTrail();
-}
-
-// Project card tilt effect
-const projectCards = document.querySelectorAll('.project-card');
-
-projectCards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-
-        const rotateX = (y - centerY) / 10;
-        const rotateY = (centerX - x) / 10;
-
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
-    });
-
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+        // Add focus to clicked window
+        this.style.borderColor = 'var(--terminal-green)';
+        this.style.transition = 'border-color 0.3s';
     });
 });
 
-// Add loading animation
-window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
-});
-
-// Add smooth reveal on load
-const addLoadAnimation = () => {
-    const loadStyle = document.createElement('style');
-    loadStyle.textContent = `
-        body {
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        body.loaded {
-            opacity: 1;
-        }
-    `;
-    document.head.appendChild(loadStyle);
-};
-
-addLoadAnimation();
-
-console.log('Portfolio loaded successfully! 🚀');
+console.log('%c> Portfolio initialized successfully! 🚀', 'color: #3fb950; font-family: monospace; font-size: 14px; font-weight: bold;');

@@ -3,250 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Developer Portfolio | Modern Design</title>
+    <title>john-dev @ ~/portfolio</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="#" class="logo">&lt;/Dev&gt;</a>
-            <ul class="nav-menu">
-                <li><a href="#home" class="nav-link">Home</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#skills" class="nav-link">Skills</a></li>
-                <li><a href="#projects" class="nav-link">Projects</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
-            </ul>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
+    <!-- Terminal Header -->
+    <header class="terminal-header">
+        <div class="terminal-controls">
+            <span class="control-btn close"></span>
+            <span class="control-btn minimize"></span>
+            <span class="control-btn maximize"></span>
         </div>
-    </nav>
+        <div class="terminal-title">john-dev@portfolio: ~/projects</div>
+        <nav class="terminal-nav">
+            <a href="#home" class="terminal-tab active">~/home</a>
+            <a href="#about" class="terminal-tab">cat README.md</a>
+            <a href="#skills" class="terminal-tab">git branch</a>
+            <a href="#projects" class="terminal-tab">git log</a>
+            <a href="#contact" class="terminal-tab">git remote</a>
+        </nav>
+    </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1 class="hero-title">
-                        <span class="greeting">Hi, I'm</span>
-                        <span class="name">John Developer</span>
-                    </h1>
-                    <div class="typing-container">
-                        <span class="typing-text">Full Stack Developer</span>
-                        <span class="cursor"></span>
-                    </div>
-                    <p class="hero-description">
-                        I build exceptional digital experiences that live on the web.
-                        Passionate about creating beautiful, functional, and user-friendly applications.
-                    </p>
-                    <div class="hero-buttons">
-                        <a href="#projects" class="btn btn-primary">View My Work</a>
-                        <a href="#contact" class="btn btn-secondary">Get In Touch</a>
-                    </div>
-                </div>
-                <div class="hero-image">
-                    <div class="image-container">
-                        <div class="floating-icon icon-1"><i class="fab fa-react"></i></div>
-                        <div class="floating-icon icon-2"><i class="fab fa-node-js"></i></div>
-                        <div class="floating-icon icon-3"><i class="fab fa-python"></i></div>
-                        <div class="floating-icon icon-4"><i class="fab fa-js"></i></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="scroll-indicator">
-            <div class="mouse">
-                <div class="wheel"></div>
-            </div>
-        </div>
-    </section>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-btn">
+        <i class="fas fa-terminal"></i>
+    </div>
 
-    <!-- About Section -->
-    <section id="about" class="about">
+    <!-- Hero Section - Terminal Style -->
+    <section id="home" class="hero terminal-section">
         <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <p class="lead">
-                        I'm a passionate developer with a love for creating innovative solutions
-                        and learning new technologies.
-                    </p>
-                    <p>
-                        With several years of experience in web development, I specialize in building
-                        modern web applications using cutting-edge technologies. My focus is on writing
-                        clean, efficient code and delivering exceptional user experiences.
-                    </p>
-                    <p>
-                        When I'm not coding, you can find me contributing to open-source projects,
-                        learning new frameworks, or sharing knowledge with the developer community.
-                    </p>
-                    <div class="about-stats">
-                        <div class="stat-item">
-                            <h3 class="stat-number" data-target="50">0</h3>
-                            <p class="stat-label">Projects Completed</p>
+            <div class="terminal-window">
+                <div class="terminal-header-bar">
+                    <div class="header-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <div class="header-title">bash</div>
+                </div>
+                <div class="terminal-body">
+                    <div class="command-line">
+                        <span class="prompt">john-dev@portfolio</span>
+                        <span class="path">~</span>
+                        <span class="dollar">$</span>
+                        <span class="command">cat intro.txt</span>
+                    </div>
+                    <div class="output">
+                        <pre class="ascii-art">
+     _       _           ____
+    | | ___ | |__  _ __ |  _ \  _____   __
+ _  | |/ _ \| '_ \| '_ \| | | |/ _ \ \ / /
+| |_| | (_) | | | | | | | |_| |  __/\ V /
+ \___/ \___/|_| |_|_| |_|____/ \___| \_/
+                        </pre>
+                        <div class="typing-output">
+                            <p class="role"><span class="git-green">▶</span> Full Stack Developer</p>
+                            <p class="role"><span class="git-green">▶</span> Open Source Contributor</p>
+                            <p class="role"><span class="git-green">▶</span> Problem Solver</p>
                         </div>
-                        <div class="stat-item">
-                            <h3 class="stat-number" data-target="5">0</h3>
-                            <p class="stat-label">Years Experience</p>
-                        </div>
-                        <div class="stat-item">
-                            <h3 class="stat-number" data-target="30">0</h3>
-                            <p class="stat-label">Happy Clients</p>
-                        </div>
+                    </div>
+
+                    <div class="command-line">
+                        <span class="prompt">john-dev@portfolio</span>
+                        <span class="path">~</span>
+                        <span class="dollar">$</span>
+                        <span class="command">git --version</span>
+                    </div>
+                    <div class="output">
+                        <p><span class="git-gray"># Building the web, one commit at a time</span></p>
+                        <p><span class="git-gray"># Passionate about clean code and creative solutions</span></p>
+                    </div>
+
+                    <div class="command-line">
+                        <span class="prompt">john-dev@portfolio</span>
+                        <span class="path">~</span>
+                        <span class="dollar">$</span>
+                        <span class="command typing-command"></span>
+                        <span class="cursor-blink">▋</span>
+                    </div>
+
+                    <div class="cta-buttons">
+                        <a href="#projects" class="git-btn primary">
+                            <i class="fas fa-code-branch"></i> View Projects
+                        </a>
+                        <a href="#contact" class="git-btn secondary">
+                            <i class="fas fa-terminal"></i> Get In Touch
+                        </a>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Skills Section -->
-    <section id="skills" class="skills">
-        <div class="container">
-            <h2 class="section-title">Skills & Technologies</h2>
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fab fa-html5"></i>
+            <!-- GitHub Style Stats -->
+            <div class="github-stats">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <i class="fas fa-code-commit"></i>
+                        <span>Total Commits</span>
                     </div>
-                    <h3>Frontend</h3>
-                    <p>HTML5, CSS3, JavaScript, React, Vue.js, TypeScript, Tailwind CSS</p>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-progress="90"></div>
-                    </div>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fab fa-node"></i>
-                    </div>
-                    <h3>Backend</h3>
-                    <p>Node.js, Express, Python, Django, REST APIs, GraphQL</p>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-progress="85"></div>
+                    <div class="stat-value" data-target="2500">0</div>
+                    <div class="stat-graph">
+                        <div class="graph-bar" style="height: 60%"></div>
+                        <div class="graph-bar" style="height: 80%"></div>
+                        <div class="graph-bar" style="height: 40%"></div>
+                        <div class="graph-bar" style="height: 90%"></div>
+                        <div class="graph-bar" style="height: 70%"></div>
+                        <div class="graph-bar" style="height: 100%"></div>
+                        <div class="graph-bar" style="height: 85%"></div>
                     </div>
                 </div>
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fas fa-database"></i>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <i class="fas fa-code-branch"></i>
+                        <span>Active Repos</span>
                     </div>
-                    <h3>Database</h3>
-                    <p>MongoDB, PostgreSQL, MySQL, Redis, Firebase</p>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-progress="80"></div>
+                    <div class="stat-value" data-target="50">0</div>
+                    <div class="contribution-grid">
+                        <div class="contribution-day level-4"></div>
+                        <div class="contribution-day level-3"></div>
+                        <div class="contribution-day level-4"></div>
+                        <div class="contribution-day level-2"></div>
+                        <div class="contribution-day level-4"></div>
+                        <div class="contribution-day level-3"></div>
+                        <div class="contribution-day level-4"></div>
+                        <div class="contribution-day level-1"></div>
+                        <div class="contribution-day level-4"></div>
+                        <div class="contribution-day level-4"></div>
+                        <div class="contribution-day level-2"></div>
+                        <div class="contribution-day level-3"></div>
+                        <div class="contribution-day level-4"></div>
+                        <div class="contribution-day level-4"></div>
                     </div>
                 </div>
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fab fa-git-alt"></i>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <i class="fas fa-star"></i>
+                        <span>GitHub Stars</span>
                     </div>
-                    <h3>DevOps & Tools</h3>
-                    <p>Git, Docker, AWS, CI/CD, Linux, Webpack</p>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-progress="75"></div>
+                    <div class="stat-value" data-target="1200">0</div>
+                    <div class="stat-trend">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>+15% this month</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Projects Section -->
-    <section id="projects" class="projects">
+    <!-- About Section - cat README.md -->
+    <section id="about" class="terminal-section">
         <div class="container">
-            <h2 class="section-title">Featured Projects</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-image">
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="#" class="project-link" aria-label="View Demo">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </a>
-                                <a href="#" class="project-link" aria-label="View Code">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            </div>
-                        </div>
+            <div class="terminal-window">
+                <div class="terminal-header-bar">
+                    <div class="header-dots">
+                        <span></span><span></span><span></span>
                     </div>
-                    <div class="project-content">
-                        <h3>E-Commerce Platform</h3>
-                        <p>A full-stack e-commerce solution with payment integration, user authentication, and admin dashboard.</p>
-                        <div class="project-tags">
-                            <span class="tag">React</span>
-                            <span class="tag">Node.js</span>
-                            <span class="tag">MongoDB</span>
-                        </div>
-                    </div>
+                    <div class="header-title">README.md - Vim</div>
                 </div>
-                <div class="project-card">
-                    <div class="project-image">
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="#" class="project-link" aria-label="View Demo">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </a>
-                                <a href="#" class="project-link" aria-label="View Code">
-                                    <i class="fab fa-github"></i>
-                                </a>
+                <div class="terminal-body">
+                    <div class="command-line">
+                        <span class="prompt">john-dev@portfolio</span>
+                        <span class="path">~</span>
+                        <span class="dollar">$</span>
+                        <span class="command">cat README.md</span>
+                    </div>
+                    <div class="markdown-content">
+                        <h1># 👨‍💻 About Me</h1>
+
+                        <div class="readme-section">
+                            <h2>## Quick Overview</h2>
+                            <div class="code-block">
+                                <pre><code><span class="code-keyword">const</span> <span class="code-variable">developer</span> = {
+  <span class="code-property">name</span>: <span class="code-string">"John Developer"</span>,
+  <span class="code-property">role</span>: <span class="code-string">"Full Stack Developer"</span>,
+  <span class="code-property">location</span>: <span class="code-string">"San Francisco, CA"</span>,
+  <span class="code-property">experience</span>: <span class="code-string">"5+ years"</span>,
+  <span class="code-property">languages</span>: [<span class="code-string">"JavaScript"</span>, <span class="code-string">"Python"</span>, <span class="code-string">"TypeScript"</span>, <span class="code-string">"Go"</span>],
+  <span class="code-property">currentFocus</span>: <span class="code-string">"Building scalable web applications"</span>,
+  <span class="code-property">funFact</span>: <span class="code-string">"I debug with console.log() and I'm not ashamed"</span>
+};</code></pre>
                             </div>
                         </div>
-                    </div>
-                    <div class="project-content">
-                        <h3>Task Management App</h3>
-                        <p>A collaborative task management application with real-time updates and team collaboration features.</p>
-                        <div class="project-tags">
-                            <span class="tag">Vue.js</span>
-                            <span class="tag">Firebase</span>
-                            <span class="tag">Tailwind</span>
+
+                        <div class="readme-section">
+                            <h2>## What I Do</h2>
+                            <ul class="readme-list">
+                                <li><span class="git-green">✓</span> Design and develop full-stack web applications</li>
+                                <li><span class="git-green">✓</span> Write clean, maintainable, and scalable code</li>
+                                <li><span class="git-green">✓</span> Collaborate with teams using Git workflows</li>
+                                <li><span class="git-green">✓</span> Contribute to open-source projects</li>
+                                <li><span class="git-green">✓</span> Mentor junior developers</li>
+                            </ul>
                         </div>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-image">
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="#" class="project-link" aria-label="View Demo">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </a>
-                                <a href="#" class="project-link" aria-label="View Code">
-                                    <i class="fab fa-github"></i>
-                                </a>
+
+                        <div class="readme-section">
+                            <h2>## Experience Timeline</h2>
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div class="timeline-icon"><i class="fas fa-briefcase"></i></div>
+                                    <div class="timeline-content">
+                                        <h3>Senior Full Stack Developer</h3>
+                                        <p class="timeline-company">Tech Corp Inc. | 2022 - Present</p>
+                                        <p class="timeline-desc">Leading development of cloud-native applications</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-icon"><i class="fas fa-code"></i></div>
+                                    <div class="timeline-content">
+                                        <h3>Full Stack Developer</h3>
+                                        <p class="timeline-company">StartUp XYZ | 2020 - 2022</p>
+                                        <p class="timeline-desc">Built and scaled web platform from 0 to 100k users</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-icon"><i class="fas fa-graduation-cap"></i></div>
+                                    <div class="timeline-content">
+                                        <h3>Junior Developer</h3>
+                                        <p class="timeline-company">Digital Agency | 2019 - 2020</p>
+                                        <p class="timeline-desc">Developed client websites and web applications</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3>Weather Dashboard</h3>
-                        <p>A beautiful weather application with location-based forecasts and interactive charts.</p>
-                        <div class="project-tags">
-                            <span class="tag">JavaScript</span>
-                            <span class="tag">API</span>
-                            <span class="tag">Chart.js</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-image">
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="#" class="project-link" aria-label="View Demo">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </a>
-                                <a href="#" class="project-link" aria-label="View Code">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3>Social Media Dashboard</h3>
-                        <p>A comprehensive analytics dashboard for social media metrics and engagement tracking.</p>
-                        <div class="project-tags">
-                            <span class="tag">React</span>
-                            <span class="tag">TypeScript</span>
-                            <span class="tag">D3.js</span>
                         </div>
                     </div>
                 </div>
@@ -254,65 +229,429 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
+    <!-- Skills Section - git branch -->
+    <section id="skills" class="terminal-section">
         <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <div class="contact-content">
-                <div class="contact-text">
-                    <h3>Let's work together!</h3>
-                    <p>
-                        I'm always interested in hearing about new projects and opportunities.
-                        Whether you have a question or just want to say hi, feel free to reach out!
-                    </p>
-                    <div class="contact-info">
-                        <div class="info-item">
-                            <i class="fas fa-envelope"></i>
-                            <span>contact@developer.com</span>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>San Francisco, CA</span>
+            <div class="terminal-window">
+                <div class="terminal-header-bar">
+                    <div class="header-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <div class="header-title">bash</div>
+                </div>
+                <div class="terminal-body">
+                    <div class="command-line">
+                        <span class="prompt">john-dev@portfolio</span>
+                        <span class="path">~</span>
+                        <span class="dollar">$</span>
+                        <span class="command">git branch --all</span>
+                    </div>
+                    <div class="output">
+                        <div class="branch-container">
+                            <div class="branch-item active">
+                                <span class="branch-icon">*</span>
+                                <span class="branch-name">main/frontend</span>
+                                <div class="tech-stack">
+                                    <span class="tech-badge js">JavaScript</span>
+                                    <span class="tech-badge react">React</span>
+                                    <span class="tech-badge vue">Vue.js</span>
+                                    <span class="tech-badge ts">TypeScript</span>
+                                    <span class="tech-badge html">HTML5</span>
+                                    <span class="tech-badge css">CSS3/SASS</span>
+                                </div>
+                            </div>
+
+                            <div class="branch-item">
+                                <span class="branch-icon"> </span>
+                                <span class="branch-name">main/backend</span>
+                                <div class="tech-stack">
+                                    <span class="tech-badge node">Node.js</span>
+                                    <span class="tech-badge python">Python</span>
+                                    <span class="tech-badge go">Go</span>
+                                    <span class="tech-badge django">Django</span>
+                                    <span class="tech-badge express">Express</span>
+                                    <span class="tech-badge graphql">GraphQL</span>
+                                </div>
+                            </div>
+
+                            <div class="branch-item">
+                                <span class="branch-icon"> </span>
+                                <span class="branch-name">main/database</span>
+                                <div class="tech-stack">
+                                    <span class="tech-badge mongo">MongoDB</span>
+                                    <span class="tech-badge postgres">PostgreSQL</span>
+                                    <span class="tech-badge redis">Redis</span>
+                                    <span class="tech-badge mysql">MySQL</span>
+                                    <span class="tech-badge firebase">Firebase</span>
+                                </div>
+                            </div>
+
+                            <div class="branch-item">
+                                <span class="branch-icon"> </span>
+                                <span class="branch-name">main/devops</span>
+                                <div class="tech-stack">
+                                    <span class="tech-badge docker">Docker</span>
+                                    <span class="tech-badge k8s">Kubernetes</span>
+                                    <span class="tech-badge aws">AWS</span>
+                                    <span class="tech-badge gcp">GCP</span>
+                                    <span class="tech-badge ci">CI/CD</span>
+                                    <span class="tech-badge linux">Linux</span>
+                                </div>
+                            </div>
+
+                            <div class="branch-item">
+                                <span class="branch-icon"> </span>
+                                <span class="branch-name">main/tools</span>
+                                <div class="tech-stack">
+                                    <span class="tech-badge git">Git</span>
+                                    <span class="tech-badge vscode">VS Code</span>
+                                    <span class="tech-badge webpack">Webpack</span>
+                                    <span class="tech-badge jest">Jest</span>
+                                    <span class="tech-badge postman">Postman</span>
+                                    <span class="tech-badge figma">Figma</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="social-links">
-                        <a href="#" class="social-link" aria-label="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="#" class="social-link" aria-label="LinkedIn">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="#" class="social-link" aria-label="Twitter">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="social-link" aria-label="CodePen">
-                            <i class="fab fa-codepen"></i>
-                        </a>
+
+                    <div class="command-line">
+                        <span class="prompt">john-dev@portfolio</span>
+                        <span class="path">~</span>
+                        <span class="dollar">$</span>
+                        <span class="command">git log --stat</span>
+                    </div>
+                    <div class="output">
+                        <p class="git-gray"># Constantly learning and expanding tech stack</p>
+                        <p class="git-gray"># Currently exploring: Web3, AI/ML, Rust</p>
                     </div>
                 </div>
-                <form class="contact-form">
-                    <div class="form-group">
-                        <input type="text" placeholder="Your Name" required>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section - git log --graph -->
+    <section id="projects" class="terminal-section">
+        <div class="container">
+            <div class="terminal-window">
+                <div class="terminal-header-bar">
+                    <div class="header-dots">
+                        <span></span><span></span><span></span>
                     </div>
-                    <div class="form-group">
-                        <input type="email" placeholder="Your Email" required>
+                    <div class="header-title">bash</div>
+                </div>
+                <div class="terminal-body">
+                    <div class="command-line">
+                        <span class="prompt">john-dev@portfolio</span>
+                        <span class="path">~</span>
+                        <span class="dollar">$</span>
+                        <span class="command">git log --graph --all --decorate --oneline</span>
                     </div>
-                    <div class="form-group">
-                        <input type="text" placeholder="Subject" required>
+                    <div class="output">
+                        <div class="projects-container">
+                            <!-- Project 1 -->
+                            <div class="commit-card">
+                                <div class="commit-header">
+                                    <div class="commit-graph">
+                                        <span class="graph-line">*</span>
+                                        <span class="graph-line">|</span>
+                                    </div>
+                                    <div class="commit-hash">a3f5c92</div>
+                                    <div class="commit-branch">
+                                        <span class="branch-tag main">main</span>
+                                        <span class="branch-tag feature">feature/ecommerce</span>
+                                    </div>
+                                </div>
+                                <div class="commit-body">
+                                    <h3>E-Commerce Platform</h3>
+                                    <p class="commit-message">
+                                        <span class="git-green">feat:</span> Full-stack e-commerce solution with payment integration
+                                    </p>
+                                    <div class="commit-details">
+                                        <p>A complete e-commerce platform with user authentication, product management, shopping cart, order processing, and payment gateway integration using Stripe.</p>
+                                        <div class="file-changes">
+                                            <span class="files-changed">
+                                                <i class="fas fa-file-code"></i> 127 files changed
+                                            </span>
+                                            <span class="insertions">
+                                                <i class="fas fa-plus"></i> 8,492 insertions
+                                            </span>
+                                            <span class="deletions">
+                                                <i class="fas fa-minus"></i> 1,234 deletions
+                                            </span>
+                                        </div>
+                                        <div class="tech-stack">
+                                            <span class="tech-badge react">React</span>
+                                            <span class="tech-badge node">Node.js</span>
+                                            <span class="tech-badge mongo">MongoDB</span>
+                                            <span class="tech-badge stripe">Stripe</span>
+                                        </div>
+                                        <div class="commit-actions">
+                                            <a href="#" class="action-btn">
+                                                <i class="fas fa-external-link-alt"></i> Live Demo
+                                            </a>
+                                            <a href="#" class="action-btn">
+                                                <i class="fab fa-github"></i> View Code
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Project 2 -->
+                            <div class="commit-card">
+                                <div class="commit-header">
+                                    <div class="commit-graph">
+                                        <span class="graph-line">*</span>
+                                        <span class="graph-line">|</span>
+                                    </div>
+                                    <div class="commit-hash">b7e2d41</div>
+                                    <div class="commit-branch">
+                                        <span class="branch-tag main">main</span>
+                                        <span class="branch-tag feature">feature/realtime-chat</span>
+                                    </div>
+                                </div>
+                                <div class="commit-body">
+                                    <h3>Real-Time Chat Application</h3>
+                                    <p class="commit-message">
+                                        <span class="git-green">feat:</span> Implemented WebSocket-based chat with rooms and DMs
+                                    </p>
+                                    <div class="commit-details">
+                                        <p>A real-time messaging application with private messaging, chat rooms, file sharing, typing indicators, and message history. Built with Socket.io for real-time bidirectional communication.</p>
+                                        <div class="file-changes">
+                                            <span class="files-changed">
+                                                <i class="fas fa-file-code"></i> 89 files changed
+                                            </span>
+                                            <span class="insertions">
+                                                <i class="fas fa-plus"></i> 6,234 insertions
+                                            </span>
+                                            <span class="deletions">
+                                                <i class="fas fa-minus"></i> 892 deletions
+                                            </span>
+                                        </div>
+                                        <div class="tech-stack">
+                                            <span class="tech-badge vue">Vue.js</span>
+                                            <span class="tech-badge socket">Socket.io</span>
+                                            <span class="tech-badge express">Express</span>
+                                            <span class="tech-badge redis">Redis</span>
+                                        </div>
+                                        <div class="commit-actions">
+                                            <a href="#" class="action-btn">
+                                                <i class="fas fa-external-link-alt"></i> Live Demo
+                                            </a>
+                                            <a href="#" class="action-btn">
+                                                <i class="fab fa-github"></i> View Code
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Project 3 -->
+                            <div class="commit-card">
+                                <div class="commit-header">
+                                    <div class="commit-graph">
+                                        <span class="graph-line">*</span>
+                                        <span class="graph-line">|</span>
+                                    </div>
+                                    <div class="commit-hash">c9a1e78</div>
+                                    <div class="commit-branch">
+                                        <span class="branch-tag main">main</span>
+                                        <span class="branch-tag feature">feature/analytics</span>
+                                    </div>
+                                </div>
+                                <div class="commit-body">
+                                    <h3>Analytics Dashboard</h3>
+                                    <p class="commit-message">
+                                        <span class="git-green">feat:</span> Built comprehensive analytics dashboard with data visualization
+                                    </p>
+                                    <div class="commit-details">
+                                        <p>A powerful analytics dashboard for tracking user behavior, conversion metrics, and business KPIs. Features interactive charts, real-time data updates, and customizable widgets.</p>
+                                        <div class="file-changes">
+                                            <span class="files-changed">
+                                                <i class="fas fa-file-code"></i> 73 files changed
+                                            </span>
+                                            <span class="insertions">
+                                                <i class="fas fa-plus"></i> 5,127 insertions
+                                            </span>
+                                            <span class="deletions">
+                                                <i class="fas fa-minus"></i> 643 deletions
+                                            </span>
+                                        </div>
+                                        <div class="tech-stack">
+                                            <span class="tech-badge react">React</span>
+                                            <span class="tech-badge ts">TypeScript</span>
+                                            <span class="tech-badge d3">D3.js</span>
+                                            <span class="tech-badge postgres">PostgreSQL</span>
+                                        </div>
+                                        <div class="commit-actions">
+                                            <a href="#" class="action-btn">
+                                                <i class="fas fa-external-link-alt"></i> Live Demo
+                                            </a>
+                                            <a href="#" class="action-btn">
+                                                <i class="fab fa-github"></i> View Code
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Project 4 -->
+                            <div class="commit-card">
+                                <div class="commit-header">
+                                    <div class="commit-graph">
+                                        <span class="graph-line">*</span>
+                                        <span class="graph-line">|</span>
+                                    </div>
+                                    <div class="commit-hash">d5c8f23</div>
+                                    <div class="commit-branch">
+                                        <span class="branch-tag main">main</span>
+                                        <span class="branch-tag feature">feature/devtools</span>
+                                    </div>
+                                </div>
+                                <div class="commit-body">
+                                    <h3>Developer Tools CLI</h3>
+                                    <p class="commit-message">
+                                        <span class="git-green">feat:</span> Created productivity CLI tool for developers
+                                    </p>
+                                    <div class="commit-details">
+                                        <p>A command-line tool to boost developer productivity with code generation, project scaffolding, automated testing, and deployment scripts. Published as an npm package.</p>
+                                        <div class="file-changes">
+                                            <span class="files-changed">
+                                                <i class="fas fa-file-code"></i> 45 files changed
+                                            </span>
+                                            <span class="insertions">
+                                                <i class="fas fa-plus"></i> 3,892 insertions
+                                            </span>
+                                            <span class="deletions">
+                                                <i class="fas fa-minus"></i> 421 deletions
+                                            </span>
+                                        </div>
+                                        <div class="tech-stack">
+                                            <span class="tech-badge node">Node.js</span>
+                                            <span class="tech-badge ts">TypeScript</span>
+                                            <span class="tech-badge npm">NPM</span>
+                                            <span class="tech-badge cli">CLI</span>
+                                        </div>
+                                        <div class="commit-actions">
+                                            <a href="#" class="action-btn">
+                                                <i class="fas fa-external-link-alt"></i> NPM Package
+                                            </a>
+                                            <a href="#" class="action-btn">
+                                                <i class="fab fa-github"></i> View Code
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <textarea rows="5" placeholder="Your Message" required></textarea>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section - git remote -->
+    <section id="contact" class="terminal-section">
+        <div class="container">
+            <div class="terminal-window">
+                <div class="terminal-header-bar">
+                    <div class="header-dots">
+                        <span></span><span></span><span></span>
                     </div>
-                    <button type="submit" class="btn btn-primary">Send Message</button>
-                </form>
+                    <div class="header-title">bash</div>
+                </div>
+                <div class="terminal-body">
+                    <div class="command-line">
+                        <span class="prompt">john-dev@portfolio</span>
+                        <span class="path">~</span>
+                        <span class="dollar">$</span>
+                        <span class="command">git remote -v</span>
+                    </div>
+                    <div class="output">
+                        <div class="contact-container">
+                            <div class="remote-connections">
+                                <div class="remote-item">
+                                    <span class="remote-name">origin</span>
+                                    <a href="https://github.com/john-dev" class="remote-url">
+                                        <i class="fab fa-github"></i> github.com/john-dev
+                                    </a>
+                                    <span class="remote-type">(fetch)</span>
+                                </div>
+                                <div class="remote-item">
+                                    <span class="remote-name">linkedin</span>
+                                    <a href="https://linkedin.com/in/john-dev" class="remote-url">
+                                        <i class="fab fa-linkedin"></i> linkedin.com/in/john-dev
+                                    </a>
+                                    <span class="remote-type">(push)</span>
+                                </div>
+                                <div class="remote-item">
+                                    <span class="remote-name">email</span>
+                                    <a href="mailto:john@developer.com" class="remote-url">
+                                        <i class="fas fa-envelope"></i> john@developer.com
+                                    </a>
+                                    <span class="remote-type">(push)</span>
+                                </div>
+                                <div class="remote-item">
+                                    <span class="remote-name">twitter</span>
+                                    <a href="https://twitter.com/john_dev" class="remote-url">
+                                        <i class="fab fa-twitter"></i> twitter.com/john_dev
+                                    </a>
+                                    <span class="remote-type">(fetch)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="command-line">
+                        <span class="prompt">john-dev@portfolio</span>
+                        <span class="path">~</span>
+                        <span class="dollar">$</span>
+                        <span class="command">git commit -m "Let's collaborate!"</span>
+                    </div>
+
+                    <div class="contact-form-section">
+                        <form class="terminal-form">
+                            <div class="form-line">
+                                <span class="form-prompt">name:</span>
+                                <input type="text" placeholder="your_name" required>
+                            </div>
+                            <div class="form-line">
+                                <span class="form-prompt">email:</span>
+                                <input type="email" placeholder="your@email.com" required>
+                            </div>
+                            <div class="form-line">
+                                <span class="form-prompt">subject:</span>
+                                <input type="text" placeholder="project_idea" required>
+                            </div>
+                            <div class="form-line">
+                                <span class="form-prompt">message:</span>
+                                <textarea placeholder="your message here..." required></textarea>
+                            </div>
+                            <button type="submit" class="git-btn primary">
+                                <i class="fas fa-paper-plane"></i> git push origin main
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="terminal-footer">
         <div class="container">
-            <p>&copy; 2024 John Developer. Built with <span class="heart">❤</span> and code.</p>
+            <div class="command-line">
+                <span class="prompt">john-dev@portfolio</span>
+                <span class="path">~</span>
+                <span class="dollar">$</span>
+                <span class="command">echo "Thanks for visiting!"</span>
+            </div>
+            <p class="footer-text">
+                <span class="git-gray"># Built with ❤️ and lots of ☕</span>
+            </p>
+            <p class="footer-text">
+                <span class="git-gray"># © 2024 John Developer. All commits reserved.</span>
+            </p>
         </div>
     </footer>
 
