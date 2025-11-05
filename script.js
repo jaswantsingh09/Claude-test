@@ -1,16 +1,56 @@
-// GitHub-Themed Terminal Portfolio JavaScript
+// Jaswant Singh's GitHub-Themed Terminal Portfolio JavaScript
+
+// Matrix Background Effect
+function initMatrixBackground() {
+    const canvas = document.getElementById('matrix-bg');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:,.<>?/~`';
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    function draw() {
+        ctx.fillStyle = 'rgba(13, 17, 23, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = '#3fb950';
+        ctx.font = `${fontSize}px monospace`;
+
+        for (let i = 0; i < drops.length; i++) {
+            const text = chars[Math.floor(Math.random() * chars.length)];
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            drops[i]++;
+        }
+    }
+
+    setInterval(draw, 50);
+
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+}
 
 // Terminal Commands Animation
 const commands = [
-    'npm start',
+    'python train_model.py --epochs=100',
     'git status',
-    'ls -la',
-    'cd projects/',
-    'node server.js',
-    'git commit -m "feat: new feature"',
-    'docker-compose up',
-    'npm test',
-    'git push origin main'
+    'docker-compose up genai-service',
+    'npm run build:production',
+    'kubectl apply -f deployment.yml',
+    'git commit -m "feat: add RAG implementation"',
+    'pytest tests/ --cov=src',
+    'aws s3 sync ./build s3://intelligaia-prod',
+    'git push origin feature/genai-solution'
 ];
 
 let commandIndex = 0;
@@ -31,10 +71,10 @@ function typeCommand() {
         charIndex++;
     }
 
-    let typeSpeed = isDeleting ? 50 : 100;
+    let typeSpeed = isDeleting ? 30 : 80;
 
     if (!isDeleting && charIndex === currentCommand.length) {
-        typeSpeed = 2000;
+        typeSpeed = 2500;
         isDeleting = true;
     } else if (isDeleting && charIndex === 0) {
         isDeleting = false;
@@ -45,8 +85,9 @@ function typeCommand() {
     setTimeout(typeCommand, typeSpeed);
 }
 
-// Start typing animation
+// Start animations
 window.addEventListener('load', () => {
+    initMatrixBackground();
     setTimeout(typeCommand, 1000);
 });
 
@@ -357,17 +398,21 @@ function addMatrixRain() {
 
 // Console ASCII Art
 console.log('%c', 'font-size: 1px;');
-console.log('%c┌─────────────────────────────────────────────────┐', 'color: #3fb950; font-family: monospace; font-size: 12px;');
-console.log('%c│                                                 │', 'color: #3fb950; font-family: monospace; font-size: 12px;');
-console.log('%c│     👋 Hey Developer! Welcome to my portfolio  │', 'color: #3fb950; font-family: monospace; font-size: 12px;');
-console.log('%c│                                                 │', 'color: #3fb950; font-family: monospace; font-size: 12px;');
-console.log('%c│     $ git clone portfolio.git                   │', 'color: #58a6ff; font-family: monospace; font-size: 12px;');
-console.log('%c│     $ cd portfolio && npm install               │', 'color: #58a6ff; font-family: monospace; font-size: 12px;');
-console.log('%c│     $ npm start                                 │', 'color: #58a6ff; font-family: monospace; font-size: 12px;');
-console.log('%c│                                                 │', 'color: #3fb950; font-family: monospace; font-size: 12px;');
-console.log('%c│     🔍 Try the Konami Code for a surprise! 🎮  │', 'color: #d29922; font-family: monospace; font-size: 12px;');
-console.log('%c│                                                 │', 'color: #3fb950; font-family: monospace; font-size: 12px;');
-console.log('%c└─────────────────────────────────────────────────┘', 'color: #3fb950; font-family: monospace; font-size: 12px;');
+console.log('%c┌───────────────────────────────────────────────────────┐', 'color: #3fb950; font-family: monospace; font-size: 12px;');
+console.log('%c│                                                       │', 'color: #3fb950; font-family: monospace; font-size: 12px;');
+console.log('%c│  👋 Welcome to Jaswant Singh\'s Portfolio             │', 'color: #3fb950; font-family: monospace; font-size: 12px;');
+console.log('%c│  Sr. Software Engineer @ Intelligaia                 │', 'color: #ff6b6b; font-family: monospace; font-size: 12px;');
+console.log('%c│                                                       │', 'color: #3fb950; font-family: monospace; font-size: 12px;');
+console.log('%c│  $ whoami                                             │', 'color: #58a6ff; font-family: monospace; font-size: 12px;');
+console.log('%c│  GenAI & Full Stack Specialist                       │', 'color: #d29922; font-family: monospace; font-size: 12px;');
+console.log('%c│  RAGs | Agentic AI | LLMs | MERN | AWS | GCP        │', 'color: #d29922; font-family: monospace; font-size: 12px;');
+console.log('%c│                                                       │', 'color: #3fb950; font-family: monospace; font-size: 12px;');
+console.log('%c│  💰 Impact: $100K+ saved | 3 FTE reduced             │', 'color: #2ea043; font-family: monospace; font-size: 12px;');
+console.log('%c│  ⚡ Performance: 3.2s → 1.1s page load               │', 'color: #2ea043; font-family: monospace; font-size: 12px;');
+console.log('%c│                                                       │', 'color: #3fb950; font-family: monospace; font-size: 12px;');
+console.log('%c│  🔍 Try the Konami Code for a surprise! 🎮          │', 'color: #d29922; font-family: monospace; font-size: 12px;');
+console.log('%c│                                                       │', 'color: #3fb950; font-family: monospace; font-size: 12px;');
+console.log('%c└───────────────────────────────────────────────────────┘', 'color: #3fb950; font-family: monospace; font-size: 12px;');
 
 // Add typing indicator to form inputs
 const formInputs = document.querySelectorAll('.terminal-form input, .terminal-form textarea');
@@ -526,4 +571,5 @@ document.querySelectorAll('.terminal-window').forEach(window => {
     });
 });
 
-console.log('%c> Portfolio initialized successfully! 🚀', 'color: #3fb950; font-family: monospace; font-size: 14px; font-weight: bold;');
+console.log('%c> Jaswant Singh\'s Portfolio initialized successfully! 🚀', 'color: #3fb950; font-family: monospace; font-size: 14px; font-weight: bold;');
+console.log('%c> Building the future with GenAI & Cloud Architecture 🧠☁️', 'color: #58a6ff; font-family: monospace; font-size: 12px;');
