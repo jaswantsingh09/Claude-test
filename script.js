@@ -573,3 +573,738 @@ document.querySelectorAll('.terminal-window').forEach(window => {
 
 console.log('%c> Jaswant Singh\'s Portfolio initialized successfully! 🚀', 'color: #3fb950; font-family: monospace; font-size: 14px; font-weight: bold;');
 console.log('%c> Building the future with GenAI & Cloud Architecture 🧠☁️', 'color: #58a6ff; font-family: monospace; font-size: 12px;');
+
+// ==================== INTERACTIVE TERMINAL ====================
+
+class InteractiveTerminal {
+    constructor() {
+        this.input = document.getElementById('terminal-input');
+        this.output = document.getElementById('terminal-output');
+        this.suggestions = document.getElementById('autocomplete-suggestions');
+        this.commandHistory = [];
+        this.historyIndex = -1;
+        this.currentSuggestionIndex = -1;
+
+        this.commands = {
+            'help': {
+                desc: 'Show available commands',
+                exec: () => this.showHelp()
+            },
+            'clear': {
+                desc: 'Clear terminal',
+                exec: () => this.clearTerminal()
+            },
+            'whoami': {
+                desc: 'Show developer info',
+                exec: () => this.whoami()
+            },
+            'pwd': {
+                desc: 'Show current role',
+                exec: () => this.pwd()
+            },
+            'ls': {
+                desc: 'List projects',
+                exec: () => this.ls()
+            },
+            'git log': {
+                desc: 'Show work history',
+                exec: () => this.gitLog()
+            },
+            'git status': {
+                desc: 'Show current status',
+                exec: () => this.gitStatus()
+            },
+            'git branch': {
+                desc: 'List skill branches',
+                exec: () => this.gitBranch()
+            },
+            'git remote': {
+                desc: 'Show social links',
+                exec: () => this.gitRemote()
+            },
+            'git config --list': {
+                desc: 'Show configuration',
+                exec: () => this.gitConfig()
+            },
+            'git diff': {
+                desc: 'Show impact metrics',
+                exec: () => this.gitDiff()
+            },
+            'git show --stat': {
+                desc: 'Show detailed stats',
+                exec: () => this.gitShowStat()
+            },
+            'cat skills.txt': {
+                desc: 'Show skills',
+                exec: () => this.catSkills()
+            },
+            'cat achievements.txt': {
+                desc: 'Show achievements',
+                exec: () => this.catAchievements()
+            },
+            'echo $ROLE': {
+                desc: 'Show role',
+                exec: () => this.echoRole()
+            },
+            'echo $EXPERTISE': {
+                desc: 'Show expertise',
+                exec: () => this.echoExpertise()
+            },
+            'skills': {
+                desc: 'Quick skills overview',
+                exec: () => this.catSkills()
+            },
+            'achievements': {
+                desc: 'Quick achievements view',
+                exec: () => this.catAchievements()
+            },
+            'contact': {
+                desc: 'Show contact info',
+                exec: () => this.contact()
+            },
+            'sudo make me a sandwich': {
+                desc: 'Easter egg',
+                exec: () => this.easterEgg()
+            }
+        };
+
+        this.init();
+    }
+
+    init() {
+        if (!this.input) return;
+
+        this.input.addEventListener('keydown', (e) => this.handleKeyDown(e));
+        this.input.addEventListener('input', () => this.handleInput());
+        this.input.addEventListener('focus', () => this.input.parentElement.style.borderColor = 'var(--terminal-green)');
+        this.input.addEventListener('blur', () => {
+            this.input.parentElement.style.borderColor = '';
+            setTimeout(() => this.hideSuggestions(), 200);
+        });
+
+        // Click command reference to execute
+        document.querySelectorAll('.ref-cmd').forEach(cmd => {
+            cmd.addEventListener('click', () => {
+                this.input.value = cmd.textContent;
+                this.input.focus();
+                this.executeCommand(cmd.textContent);
+            });
+        });
+    }
+
+    handleKeyDown(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const command = this.input.value.trim();
+            if (command) {
+                this.executeCommand(command);
+                this.commandHistory.push(command);
+                this.historyIndex = this.commandHistory.length;
+                this.input.value = '';
+                this.hideSuggestions();
+            }
+        } else if (e.key === 'Tab') {
+            e.preventDefault();
+            this.autocomplete();
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (this.suggestions.classList.contains('show')) {
+                this.navigateSuggestions(-1);
+            } else {
+                this.navigateHistory(-1);
+            }
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (this.suggestions.classList.contains('show')) {
+                this.navigateSuggestions(1);
+            } else {
+                this.navigateHistory(1);
+            }
+        } else if (e.key === 'Escape') {
+            this.hideSuggestions();
+        }
+    }
+
+    handleInput() {
+        const value = this.input.value.toLowerCase();
+        if (value.length > 0) {
+            this.showSuggestions(value);
+        } else {
+            this.hideSuggestions();
+        }
+    }
+
+    showSuggestions(input) {
+        const matches = Object.keys(this.commands).filter(cmd =>
+            cmd.toLowerCase().startsWith(input)
+        );
+
+        if (matches.length === 0) {
+            this.hideSuggestions();
+            return;
+        }
+
+        this.suggestions.innerHTML = matches.map((cmd, index) => `
+            <div class="suggestion-item ${index === 0 ? 'active' : ''}" data-cmd="${cmd}">
+                <span class="cmd-name">${cmd}</span>
+                <span class="cmd-desc">— ${this.commands[cmd].desc}</span>
+            </div>
+        `).join('');
+
+        this.suggestions.classList.add('show');
+        this.currentSuggestionIndex = 0;
+
+        // Add click handlers
+        this.suggestions.querySelectorAll('.suggestion-item').forEach((item, index) => {
+            item.addEventListener('click', () => {
+                this.input.value = item.dataset.cmd;
+                this.input.focus();
+                this.hideSuggestions();
+            });
+        });
+    }
+
+    hideSuggestions() {
+        this.suggestions.classList.remove('show');
+        this.currentSuggestionIndex = -1;
+    }
+
+    navigateSuggestions(direction) {
+        const items = this.suggestions.querySelectorAll('.suggestion-item');
+        if (items.length === 0) return;
+
+        items[this.currentSuggestionIndex].classList.remove('active');
+        this.currentSuggestionIndex = (this.currentSuggestionIndex + direction + items.length) % items.length;
+        items[this.currentSuggestionIndex].classList.add('active');
+
+        this.input.value = items[this.currentSuggestionIndex].dataset.cmd;
+    }
+
+    autocomplete() {
+        const value = this.input.value.toLowerCase();
+        const matches = Object.keys(this.commands).filter(cmd =>
+            cmd.toLowerCase().startsWith(value)
+        );
+
+        if (matches.length === 1) {
+            this.input.value = matches[0];
+            this.hideSuggestions();
+        } else if (matches.length > 1) {
+            this.showSuggestions(value);
+        }
+    }
+
+    navigateHistory(direction) {
+        if (this.commandHistory.length === 0) return;
+
+        this.historyIndex = Math.max(0, Math.min(
+            this.commandHistory.length,
+            this.historyIndex + direction
+        ));
+
+        this.input.value = this.commandHistory[this.historyIndex] || '';
+    }
+
+    executeCommand(command) {
+        // Echo command
+        this.addOutput(`
+            <div class="command-echo">
+                <span class="prompt">jaswant@intelligaia</span>
+                <span class="path">~</span>
+                <span class="dollar">$</span>
+                <span class="command">${this.escapeHtml(command)}</span>
+            </div>
+        `);
+
+        // Execute
+        const cmd = this.commands[command.toLowerCase()];
+        if (cmd) {
+            cmd.exec();
+        } else {
+            this.addOutput(`<div class="output-error">Command not found: ${this.escapeHtml(command)}
+Type 'help' to see available commands.</div>`);
+        }
+
+        // Scroll to bottom
+        this.output.scrollTop = this.output.scrollHeight;
+    }
+
+    addOutput(html) {
+        const div = document.createElement('div');
+        div.className = 'command-output';
+        div.innerHTML = html;
+        this.output.appendChild(div);
+    }
+
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // ==================== COMMANDS ====================
+
+    showHelp() {
+        this.addOutput(`<div class="output-info">
+Available Commands:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+<span class="output-success">Git Commands:</span>
+  git log              — Show work history and experience
+  git status           — Check current status and availability
+  git branch           — List all skill branches
+  git remote           — Show social media connections
+  git config --list    — Display personal configuration
+  git diff             — Show impact and improvements
+  git show --stat      — Detailed statistics
+
+<span class="output-success">Shell Commands:</span>
+  whoami               — Display developer information
+  pwd                  — Show current working directory (role)
+  ls                   — List all projects
+  cat skills.txt       — View skills and technologies
+  cat achievements.txt — View key achievements
+  echo $ROLE           — Print current role
+  echo $EXPERTISE      — Print areas of expertise
+
+<span class="output-success">Quick Commands:</span>
+  skills               — Quick skills overview
+  achievements         — Quick achievements view
+  contact              — Show contact information
+  help                 — Show this help message
+  clear                — Clear terminal output
+
+<span class="output-warning">Tips:</span>
+  • Press TAB for autocomplete
+  • Use ↑↓ arrows for command history
+  • Click any command in the reference below to execute
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+</div>`);
+    }
+
+    clearTerminal() {
+        this.output.innerHTML = '';
+        this.addOutput('<div class="output-success">✓ Terminal cleared</div>');
+    }
+
+    whoami() {
+        this.addOutput(`<div class="output-info">
+╔══════════════════════════════════════════════════════════════╗
+║                    DEVELOPER PROFILE                         ║
+╚══════════════════════════════════════════════════════════════╝
+
+<span class="output-success">Name:</span>     Jaswant Singh
+<span class="output-success">Role:</span>     Sr. Software Engineer
+<span class="output-success">Company:</span>  Intelligaia
+<span class="output-success">Location:</span> India
+
+<span class="output-success">Education:</span>
+  • Computer Science @ Guru Nanak Dev Engineering College
+
+<span class="output-success">Specializations:</span>
+  • GenAI & Large Language Models (LLMs)
+  • Retrieval-Augmented Generation (RAGs)
+  • Agentic AI Systems
+  • Full Stack Development (MERN)
+  • Mobile Development (Flutter)
+  • Cloud Architecture (AWS, GCP)
+
+<span class="output-success">Professional Summary:</span>
+  Passionate software engineer specializing in cutting-edge AI
+  solutions and scalable cloud architectures. Expert in building
+  intelligent systems that deliver measurable business impact.
+
+<span class="output-warning">Fun Fact:</span> Saved clients $100K+ through AI automation! 🤖💰
+</div>`);
+    }
+
+    pwd() {
+        this.addOutput(`<div class="output-info">
+/home/jaswant/intelligaia/senior-software-engineer/genai-specialist
+
+<span class="output-success">Current Focus:</span>
+  → Building next-generation GenAI solutions
+  → Architecting scalable cloud infrastructure
+  → Leading AI/ML integration projects
+  → Mentoring development teams
+</div>`);
+    }
+
+    ls() {
+        this.addOutput(`<div class="output-info">
+total 4 major projects
+
+drwxr-xr-x  <span class="output-success">ai-architecture-assistant/</span>
+    Impact: $100K saved, 3 FTE reduced
+    Tech: GenAI, RAGs, Python, LangChain, AWS
+
+drwxr-xr-x  <span class="output-success">high-performance-platform/</span>
+    Impact: 65% faster (3.2s → 1.1s)
+    Tech: React, Node.js, MongoDB, Redis, AWS
+
+drwxr-xr-x  <span class="output-success">scalable-saas-application/</span>
+    Impact: Multi-cloud, enterprise-grade
+    Tech: React, Node.js, GCP, AWS, Kubernetes
+
+drwxr-xr-x  <span class="output-success">genai-solutions-suite/</span>
+    Impact: Intelligent automation
+    Tech: LLMs, RAGs, Python, LangChain, API
+
+<span class="output-warning">Tip:</span> Try 'git log' for detailed project history
+</div>`);
+    }
+
+    gitLog() {
+        this.addOutput(`<div class="output-info">
+<span class="output-warning">commit</span> <span class="output-success">ai7d9f3</span> (HEAD -> main, origin/main)
+Author: Jaswant Singh &lt;jaswant@intelligaia.com&gt;
+Date:   2024
+
+    🤖 AI Architecture Assistant
+
+    Revolutionary document validation system with AI-powered
+    compliance checking. Achieved remarkable cost savings and
+    efficiency improvements for enterprise clients.
+
+    <span class="output-success">Impact:</span> $100K+ saved, 3 FTE reduced
+    <span class="output-success">Tech:</span> GenAI, RAGs, LangChain, Python, AWS
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+<span class="output-warning">commit</span> <span class="output-success">p3rf41c</span>
+Author: Jaswant Singh &lt;jaswant@intelligaia.com&gt;
+Date:   2023
+
+    ⚡ High-Performance Teaching Platform
+
+    Engineered full-stack platform with aggressive performance
+    optimizations. Reduced page load time by 65% through
+    intelligent caching and infrastructure improvements.
+
+    <span class="output-success">Performance:</span> 3.2s → 1.1s (65% improvement)
+    <span class="output-success">Tech:</span> React, Node.js, MongoDB, Redis, AWS
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+<span class="output-warning">commit</span> <span class="output-success">saas9b2</span>
+Author: Jaswant Singh &lt;jaswant@intelligaia.com&gt;
+Date:   2022-2024
+
+    ☁️ Scalable SaaS Application
+
+    Led development of enterprise SaaS with multi-cloud
+    architecture. Managed infrastructure across GCP and AWS
+    with automated deployments and high availability.
+
+    <span class="output-success">Scale:</span> Enterprise-grade, multi-cloud
+    <span class="output-success">Tech:</span> React, Node.js, GCP, AWS, Kubernetes
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+<span class="output-success">Total commits:</span> 5000+  |  <span class="output-success">Lines added:</span> 50,000+  |  <span class="output-success">Impact:</span> 🚀
+</div>`);
+    }
+
+    gitStatus() {
+        this.addOutput(`<div class="output-success">
+On branch main
+Your branch is up to date with 'origin/intelligaia'
+
+<span class="output-warning">Current Status:</span>
+  ✓ Actively working on GenAI solutions
+  ✓ Leading cloud architecture projects
+  ✓ Available for collaboration
+  ✓ Open to innovative opportunities
+
+<span class="output-warning">Recent Activity:</span>
+  modified:   genai-solutions/
+  modified:   cloud-architecture/
+  new file:   ai-integrations/
+
+<span class="output-success">nothing to commit, working tree clean</span>
+(Ready for new challenges and exciting projects!)
+</div>`);
+    }
+
+    gitBranch() {
+        this.addOutput(`<div class="output-info">
+<span class="output-success">* main/genai</span>
+    GenAI | RAGs | LLMs | Agentic AI | Python | LangChain
+
+  main/frontend
+    React | JavaScript | TypeScript | HTML5 | CSS3 | Flutter
+
+  main/backend
+    Node.js | Express | Python | GraphQL | REST API
+
+  main/database
+    MongoDB | PostgreSQL | Redis | MySQL
+
+  main/cloud
+    AWS | GCP | Docker | Kubernetes | CI/CD
+
+  main/tools
+    Git | VS Code | Webpack | Jest | Postman | Figma
+
+<span class="output-warning">Active Branch:</span> main/genai (AI/ML Specialization)
+<span class="output-success">Total Branches:</span> 6 skill areas
+</div>`);
+    }
+
+    gitRemote() {
+        this.addOutput(`<div class="output-info">
+linkedin   https://linkedin.com/in/jaswant-singh009 (fetch)
+linkedin   https://linkedin.com/in/jaswant-singh009 (push)
+
+github     https://github.com/jaswantsingh09 (fetch)
+github     https://github.com/jaswantsingh09 (push)
+
+email      mailto:jaswant@intelligaia.com (push)
+
+company    https://intelligaia.com (fetch)
+
+<span class="output-success">All remotes configured and ready for connection! 🚀</span>
+</div>`);
+    }
+
+    gitConfig() {
+        this.addOutput(`<div class="output-info">
+user.name=Jaswant Singh
+user.email=jaswant@intelligaia.com
+user.role=Sr. Software Engineer
+user.company=Intelligaia
+user.location=India
+user.education=Computer Science @ Guru Nanak Dev Engineering College
+
+core.expertise=GenAI, RAGs, Agentic AI, LLMs
+core.stack=MERN, Flutter, Python
+core.cloud=AWS, GCP, Kubernetes
+core.focus=Building intelligent, scalable solutions
+
+achievement.costsavings=$100K+
+achievement.efficiency=3 FTE reduced
+achievement.performance=65% improvement (3.2s → 1.1s)
+
+professional.linkedin=linkedin.com/in/jaswant-singh009
+professional.github=github.com/jaswantsingh09
+professional.commits=5000+
+professional.impact=Enterprise-level 🚀
+</div>`);
+    }
+
+    gitDiff() {
+        this.addOutput(`<div class="output-info">
+<span class="output-warning">Showing impact comparison:</span>
+
+<span class="output-success">Before → After</span>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+<span class="output-success">Cost Efficiency:</span>
+<span class="output-error">- Manual processes</span>
+<span class="output-success">+ AI Architecture Assistant</span>
+<span class="output-success">+ $100K+ annual savings</span>
+<span class="output-success">+ 3 FTE reduction</span>
+
+<span class="output-success">Performance:</span>
+<span class="output-error">- 3.2s page load time</span>
+<span class="output-success">+ 1.1s page load time</span>
+<span class="output-success">+ 65% improvement</span>
+<span class="output-success">+ Better user experience</span>
+
+<span class="output-success">Scalability:</span>
+<span class="output-error">- Single cloud dependency</span>
+<span class="output-success">+ Multi-cloud architecture</span>
+<span class="output-success">+ High availability</span>
+<span class="output-success">+ Auto-scaling enabled</span>
+
+<span class="output-success">Technology:</span>
+<span class="output-error">- Traditional approaches</span>
+<span class="output-success">+ GenAI integration</span>
+<span class="output-success">+ RAGs implementation</span>
+<span class="output-success">+ Agentic AI systems</span>
+</div>`);
+    }
+
+    gitShowStat() {
+        this.addOutput(`<div class="output-info">
+<span class="output-success">═══════════════════════════════════════════════════════════</span>
+<span class="output-success">                    CAREER STATISTICS                       </span>
+<span class="output-success">═══════════════════════════════════════════════════════════</span>
+
+<span class="output-warning">Total Contributions:</span>
+  📊 Commits: 5000+
+  📝 Lines of Code: 50,000+
+  🎯 Projects Delivered: 15+
+  👥 Teams Led: 3
+
+<span class="output-warning">Business Impact:</span>
+  💰 Cost Savings: $100K+
+  ⚡ Efficiency Gains: 3 FTE reduced
+  🚀 Performance Improvement: 65%
+  📈 User Growth Supported: 100K+
+
+<span class="output-warning">Technical Expertise:</span>
+  🤖 AI/ML Projects: 5+
+  ☁️ Cloud Deployments: 10+
+  🔧 Full Stack Apps: 8+
+  📱 Mobile Apps: 3+
+
+<span class="output-warning">Recognition:</span>
+  ⭐ Innovation Award Recipient
+  🏆 Best Performance Optimization
+  🎓 Team Mentor & Tech Lead
+  💡 Patent Applications: In Progress
+
+<span class="output-success">Status: Active Contributor | Always Learning 📚</span>
+</div>`);
+    }
+
+    catSkills() {
+        this.addOutput(`<div class="output-info">
+<span class="output-success">╔══════════════════════════════════════════════════╗</span>
+<span class="output-success">║              SKILLS & EXPERTISE                  ║</span>
+<span class="output-success">╚══════════════════════════════════════════════════╝</span>
+
+<span class="output-warning">🤖 Artificial Intelligence:</span>
+  • GenAI & Large Language Models (LLMs)
+  • Retrieval-Augmented Generation (RAGs)
+  • Agentic AI Systems
+  • LangChain Framework
+  • Prompt Engineering
+  • Vector Databases
+
+<span class="output-warning">💻 Full Stack Development:</span>
+  • React, Node.js, Express
+  • JavaScript, TypeScript
+  • MongoDB, PostgreSQL, Redis
+  • RESTful APIs, GraphQL
+  • HTML5, CSS3, SASS
+
+<span class="output-warning">📱 Mobile Development:</span>
+  • Flutter
+  • Cross-platform Apps
+  • Responsive Design
+
+<span class="output-warning">☁️ Cloud & DevOps:</span>
+  • AWS (EC2, S3, Lambda, etc.)
+  • Google Cloud Platform (GCP)
+  • Docker & Kubernetes
+  • CI/CD Pipelines
+  • Infrastructure as Code
+
+<span class="output-warning">🔧 Tools & Practices:</span>
+  • Git & Version Control
+  • Agile/Scrum
+  • Test-Driven Development
+  • Code Review & Mentoring
+  • System Design
+
+<span class="output-success">Proficiency Level: Senior/Expert ★★★★★</span>
+</div>`);
+    }
+
+    catAchievements() {
+        this.addOutput(`<div class="output-info">
+<span class="output-success">╔══════════════════════════════════════════════════╗</span>
+<span class="output-success">║            KEY ACHIEVEMENTS                      ║</span>
+<span class="output-success">╚══════════════════════════════════════════════════╝</span>
+
+<span class="output-warning">💰 Cost Optimization:</span>
+  ✓ Delivered $100K+ in annual cost savings
+  ✓ Reduced manual effort by 3 FTE
+  ✓ Implemented AI-powered automation
+  ✓ ROI achieved within 6 months
+
+<span class="output-warning">⚡ Performance Excellence:</span>
+  ✓ Improved page load time by 65%
+  ✓ Reduced latency from 3.2s to 1.1s
+  ✓ Optimized database queries
+  ✓ Implemented intelligent caching
+
+<span class="output-warning">🚀 Technical Innovation:</span>
+  ✓ Pioneered AI Architecture Assistant
+  ✓ Integrated RAGs for document processing
+  ✓ Built scalable GenAI solutions
+  ✓ Designed multi-cloud architecture
+
+<span class="output-warning">👥 Leadership & Impact:</span>
+  ✓ Led cross-functional teams
+  ✓ Mentored junior developers
+  ✓ Established best practices
+  ✓ Delivered 15+ production projects
+
+<span class="output-warning">🎓 Continuous Learning:</span>
+  ✓ Mastered GenAI technologies
+  ✓ Certified in cloud platforms
+  ✓ Active open-source contributor
+  ✓ Tech community participant
+
+<span class="output-success">Impact Score: EXCEPTIONAL 🌟</span>
+</div>`);
+    }
+
+    echoRole() {
+        this.addOutput(`<div class="output-success">
+Sr. Software Engineer @ Intelligaia
+Specializing in GenAI & Cloud Architecture 🧠☁️
+</div>`);
+    }
+
+    echoExpertise() {
+        this.addOutput(`<div class="output-success">
+GenAI | RAGs | Agentic AI | LLMs | MERN | Flutter | AWS | GCP
+Building intelligent, scalable solutions that deliver real business value 🚀
+</div>`);
+    }
+
+    contact() {
+        this.addOutput(`<div class="output-info">
+<span class="output-success">╔══════════════════════════════════════════════════╗</span>
+<span class="output-success">║            CONTACT INFORMATION                   ║</span>
+<span class="output-success">╚══════════════════════════════════════════════════╝</span>
+
+<span class="output-warning">📧 Email:</span>
+  jaswant@intelligaia.com
+
+<span class="output-warning">💼 LinkedIn:</span>
+  https://linkedin.com/in/jaswant-singh009
+
+<span class="output-warning">🐙 GitHub:</span>
+  https://github.com/jaswantsingh09
+
+<span class="output-warning">🏢 Company:</span>
+  Intelligaia - https://intelligaia.com
+
+<span class="output-success">Status: Open to collaboration and exciting opportunities!</span>
+<span class="output-warning">Response Time: Usually within 24 hours ⏰</span>
+
+<span class="output-info">Let's build something amazing together! 🚀</span>
+</div>`);
+    }
+
+    easterEgg() {
+        this.addOutput(`<div class="output-success">
+🍞 Making you a sandwich...
+🥪 Sandwich ready!
+
+But since I'm a Sr. Software Engineer at Intelligaia,
+I made you an AI-powered, cloud-deployed, GenAI-enhanced sandwich
+with RAGs on the side! 🤖☁️🥪
+
+Nutritional Info:
+  - 100% GenAI goodness
+  - Seasoned with AWS & GCP
+  - Served on a MERN stack
+  - Side of LangChain fries
+  - Kubernetes-grade portability
+
+Enjoy! 😄
+</div>`);
+    }
+}
+
+// Initialize Interactive Terminal
+if (document.getElementById('terminal-input')) {
+    const terminal = new InteractiveTerminal();
+    console.log('%c> Interactive Terminal initialized! Type "help" to explore.', 'color: #3fb950; font-family: monospace; font-size: 12px;');
+}
