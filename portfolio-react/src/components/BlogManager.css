@@ -1,0 +1,314 @@
+/* Blog Manager Modal */
+.blog-manager-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 2rem;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.blog-manager-modal {
+  background: var(--gh-bg-secondary);
+  border: 1px solid var(--gh-border);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.blog-manager-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--gh-border);
+  background: var(--gh-bg-tertiary);
+  border-radius: 12px 12px 0 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.blog-manager-title {
+  font-size: 1.5rem;
+  color: var(--terminal-green);
+  font-family: 'Courier New', monospace;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.blog-manager-close {
+  background: transparent;
+  border: 1px solid var(--gh-border);
+  color: var(--gh-text-secondary);
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blog-manager-close:hover {
+  background: var(--gh-red);
+  color: white;
+  border-color: var(--gh-red);
+  transform: rotate(90deg);
+}
+
+.blog-manager-form {
+  padding: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Courier New', monospace;
+  color: var(--terminal-blue);
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  background: var(--gh-bg-primary);
+  border: 1px solid var(--gh-border);
+  border-radius: 6px;
+  padding: 0.75rem;
+  color: var(--gh-text-primary);
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--terminal-green);
+  box-shadow: 0 0 0 3px rgba(63, 185, 80, 0.1);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.6;
+}
+
+.form-hint {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--gh-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Courier New', monospace;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.form-group-half {
+  margin-bottom: 0;
+}
+
+.form-group-checkbox {
+  margin-top: 1rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 1rem;
+  background: var(--gh-bg-tertiary);
+  border: 1px solid var(--gh-border);
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.checkbox-label:hover {
+  border-color: var(--terminal-green);
+  background: rgba(63, 185, 80, 0.05);
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--terminal-green);
+}
+
+.checkbox-text {
+  font-family: 'Courier New', monospace;
+  color: var(--gh-text-primary);
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.blog-manager-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--gh-border);
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+}
+
+.btn-primary {
+  background: var(--terminal-green);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--gh-green-bright);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(63, 185, 80, 0.3);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--gh-text-secondary);
+  border: 1px solid var(--gh-border);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--gh-bg-tertiary);
+  border-color: var(--gh-text-secondary);
+}
+
+.fa-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Scrollbar */
+.blog-manager-modal::-webkit-scrollbar {
+  width: 8px;
+}
+
+.blog-manager-modal::-webkit-scrollbar-track {
+  background: var(--gh-bg-primary);
+}
+
+.blog-manager-modal::-webkit-scrollbar-thumb {
+  background: var(--gh-border);
+  border-radius: 4px;
+}
+
+.blog-manager-modal::-webkit-scrollbar-thumb:hover {
+  background: var(--gh-text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .blog-manager-overlay {
+    padding: 1rem;
+  }
+
+  .blog-manager-header {
+    padding: 1rem 1.5rem;
+  }
+
+  .blog-manager-title {
+    font-size: 1.2rem;
+  }
+
+  .blog-manager-form {
+    padding: 1.5rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .form-group-half {
+    margin-bottom: 1.5rem;
+  }
+
+  .blog-manager-actions {
+    flex-direction: column-reverse;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+}

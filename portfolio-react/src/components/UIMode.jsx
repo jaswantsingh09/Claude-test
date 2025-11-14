@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import BlogsSection from './BlogsSection';
 import './UIMode.css';
 
 const UIMode = ({ onSwitchMode }) => {
@@ -67,6 +68,7 @@ const UIMode = ({ onSwitchMode }) => {
           <a href="#about" className={`terminal-tab ${activeSection === 'about' ? 'active' : ''}`}>cat README.md</a>
           <a href="#skills" className={`terminal-tab ${activeSection === 'skills' ? 'active' : ''}`}>git branch</a>
           <a href="#projects" className={`terminal-tab ${activeSection === 'projects' ? 'active' : ''}`}>git log</a>
+          <a href="#blogs" className={`terminal-tab ${activeSection === 'blogs' ? 'active' : ''}`}>cat ~/blogs</a>
           <a href="#contact" className={`terminal-tab ${activeSection === 'contact' ? 'active' : ''}`}>git remote</a>
         </nav>
       </header>
@@ -278,6 +280,9 @@ _  | |/ _\` / __\\ \\ /\\ / / _\` | '_ \\| __| \\___ \\| | '_ \\ / _\` | '_ \\
           </div>
         </div>
       </section>
+
+      {/* Blogs Section */}
+      <BlogsSection />
 
       {/* Contact Section */}
       <section id="contact" className="contact terminal-section">

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { blogStorage } from '../utils/blogStorage';
 import './TerminalMode.css';
 
 const TerminalMode = ({ onSwitchMode }) => {
@@ -17,6 +18,7 @@ const TerminalMode = ({ onSwitchMode }) => {
     'whoami': { desc: 'Show developer info' },
     'pwd': { desc: 'Print working directory' },
     'ls': { desc: 'List projects' },
+    'ls blogs': { desc: 'List all blog posts' },
     'git log': { desc: 'Show work history' },
     'git status': { desc: 'Show current status' },
     'git branch': { desc: 'List skill branches' },
@@ -26,10 +28,12 @@ const TerminalMode = ({ onSwitchMode }) => {
     'git show --stat': { desc: 'Show detailed stats' },
     'cat skills.txt': { desc: 'Display skills' },
     'cat achievements.txt': { desc: 'Display achievements' },
+    'cat blogs': { desc: 'List all blogs with details' },
     'echo $ROLE': { desc: 'Print role variable' },
     'echo $EXPERTISE': { desc: 'Print expertise variable' },
     'skills': { desc: 'Quick alias for cat skills.txt' },
     'achievements': { desc: 'Quick alias for achievements' },
+    'blogs': { desc: 'Quick alias for cat blogs' },
     'contact': { desc: 'Show contact information' },
     'sudo make me a sandwich': { desc: 'Easter egg' },
   };
@@ -338,6 +342,54 @@ Author: Jaswant Singh <jaswant@intelligaia.com>
 </div>`);
         break;
 
+      case 'ls blogs':
+        const blogsListShort = blogStorage.getBlogs();
+        const blogsList = blogsListShort.map(blog =>
+          `<span class="dir">📝 ${blog.slug}.md</span>`
+        ).join('\n');
+        addOutput(`<div class="output-info">
+${blogsList}
+
+<span class="git-gray"># ${blogsListShort.length} blog posts total</span>
+<span class="git-gray"># Use 'cat blogs' for detailed list</span>
+</div>`);
+        break;
+
+      case 'cat blogs':
+      case 'blogs':
+        const allBlogs = blogStorage.getBlogs();
+        if (allBlogs.length === 0) {
+          addOutput(`<div class="output-info">
+<span class="section-title">══ NO BLOGS YET ══</span>
+
+No blog posts found. Create your first blog in UI mode!
+</div>`);
+        } else {
+          const blogsOutput = allBlogs.map((blog, index) => {
+            const featured = blog.featured ? '<span class="git-yellow">⭐ FEATURED</span> ' : '';
+            return `
+<span class="git-green">────────────────────────────────────────────────────────────</span>
+${featured}<span class="git-blue">#${index + 1}</span> <span class="commit-hash">${blog.slug}</span>
+
+<span class="output-success">Title:</span>      ${blog.title}
+<span class="output-success">Date:</span>       ${blog.date}
+<span class="output-success">Read Time:</span>  ${blog.readTime} minutes
+<span class="output-success">Views:</span>      ${blog.views}
+<span class="output-success">Tags:</span>       ${blog.tags.join(', ')}
+
+<span class="git-gray">${blog.excerpt}</span>`;
+          }).join('\n');
+
+          addOutput(`<div class="output-info">
+<span class="section-title">══ BLOG POSTS (${allBlogs.length}) ══</span>
+${blogsOutput}
+
+<span class="git-green">────────────────────────────────────────────────────────────</span>
+<span class="git-gray"># Tip: Create and manage blogs in UI mode</span>
+</div>`);
+        }
+        break;
+
       case 'sudo make me a sandwich':
         addOutput(`<div class="easter-egg">
 <span class="output-warning">🍞 Okay, here's your sandwich! 🥪</span>
@@ -516,6 +568,21 @@ Type 'help' to see available commands.</span>`, 'error');
           <div className="quick-cmd-section">
             <h4><i className="fas fa-terminal"></i> Info Commands</h4>
             {['whoami', 'skills', 'achievements', 'contact'].map(cmd => (
+              <button
+                key={cmd}
+                onClick={() => {
+                  setInput(cmd);
+                  inputRef.current?.focus();
+                }}
+                className="quick-cmd-btn"
+              >
+                {cmd}
+              </button>
+            ))}
+          </div>
+          <div className="quick-cmd-section">
+            <h4><i className="fas fa-blog"></i> Blog Commands</h4>
+            {['blogs', 'ls blogs', 'cat blogs'].map(cmd => (
               <button
                 key={cmd}
                 onClick={() => {
