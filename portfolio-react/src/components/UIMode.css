@@ -1,10 +1,11 @@
 /* UI Mode Styles */
 .ui-mode {
   min-height: 100vh;
-  background: #0d1117;
-  color: #c9d1d9;
+  background: var(--gh-bg-primary);
+  color: var(--gh-text-primary);
   position: relative;
   padding-top: 60px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Background Effects */
@@ -25,7 +26,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.03;
+  opacity: var(--matrix-opacity);
 }
 
 .grid-overlay {
@@ -56,7 +57,7 @@
   position: absolute;
   border-radius: 50%;
   filter: blur(80px);
-  opacity: 0.15;
+  opacity: var(--orb-opacity);
   animation: float 15s ease-in-out infinite;
 }
 
@@ -100,13 +101,14 @@
   top: 0;
   left: 0;
   right: 0;
-  background: #161b22;
-  border-bottom: 1px solid #30363d;
+  background: var(--gh-bg-secondary);
+  border-bottom: 1px solid var(--gh-border);
   z-index: 100;
   padding: 0.5rem 2rem;
   display: flex;
   align-items: center;
   gap: 1rem;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .terminal-controls {

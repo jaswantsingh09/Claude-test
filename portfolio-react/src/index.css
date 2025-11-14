@@ -1,5 +1,5 @@
 /* GitHub Dark Theme Colors */
-:root {
+:root[data-theme="dark"] {
   --gh-bg-primary: #0d1117;
   --gh-bg-secondary: #161b22;
   --gh-bg-tertiary: #21262d;
@@ -21,6 +21,72 @@
   --terminal-yellow: #d29922;
   --terminal-red: #f85149;
   --terminal-gray: #6e7681;
+
+  /* Matrix and Effects */
+  --matrix-opacity: 0.03;
+  --grid-opacity: 0.03;
+  --orb-opacity: 0.15;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+}
+
+/* GitHub Light Theme Colors */
+:root[data-theme="light"] {
+  --gh-bg-primary: #ffffff;
+  --gh-bg-secondary: #f6f8fa;
+  --gh-bg-tertiary: #eaeef2;
+  --gh-border: #d0d7de;
+  --gh-text-primary: #1f2328;
+  --gh-text-secondary: #656d76;
+  --gh-text-link: #0969da;
+  --gh-green: #1a7f37;
+  --gh-green-bright: #2da44e;
+  --gh-blue: #0969da;
+  --gh-orange: #bc4c00;
+  --gh-red: #cf222e;
+  --gh-purple: #8250df;
+  --gh-pink: #bf3989;
+
+  /* Terminal Colors - Light Mode */
+  --terminal-green: #1a7f37;
+  --terminal-blue: #0969da;
+  --terminal-yellow: #9a6700;
+  --terminal-red: #cf222e;
+  --terminal-gray: #656d76;
+
+  /* Matrix and Effects - Light Mode */
+  --matrix-opacity: 0.02;
+  --grid-opacity: 0.05;
+  --orb-opacity: 0.08;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Default to dark theme */
+:root {
+  --gh-bg-primary: #0d1117;
+  --gh-bg-secondary: #161b22;
+  --gh-bg-tertiary: #21262d;
+  --gh-border: #30363d;
+  --gh-text-primary: #c9d1d9;
+  --gh-text-secondary: #8b949e;
+  --gh-text-link: #58a6ff;
+  --gh-green: #238636;
+  --gh-green-bright: #2ea043;
+  --gh-blue: #1f6feb;
+  --gh-orange: #db6d28;
+  --gh-red: #da3633;
+  --gh-purple: #8957e5;
+  --gh-pink: #db61a2;
+
+  --terminal-green: #3fb950;
+  --terminal-blue: #58a6ff;
+  --terminal-yellow: #d29922;
+  --terminal-red: #f85149;
+  --terminal-gray: #6e7681;
+
+  --matrix-opacity: 0.03;
+  --grid-opacity: 0.03;
+  --orb-opacity: 0.15;
+  --shadow-color: rgba(0, 0, 0, 0.5);
 }
 
 * {
@@ -42,6 +108,7 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 a {
